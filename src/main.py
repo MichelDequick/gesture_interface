@@ -20,7 +20,7 @@ topic_opencv_ir1 = "gesture_interface/opencv/ir1/image_raw"
 topic_opencv_ir2 = "gesture_interface/opencv/ir2/image_raw"
 
 
-class image_converter:
+class rgb_image_converter:
 
   def __init__(self, topic_in, topic_out):
     self.image_pub = rospy.Publisher(topic_out, Image)
@@ -46,10 +46,33 @@ class image_converter:
     except CvBridgeError as e:
       print(e)
 
+
+class ir_image_converter:
+
+  def __init__(self, topic_in, topic_out):
+    self.image_pub = rospy.Publisher(topic_out, Image)
+
+    self.bridge = CvBridge()
+    self.image_sub = rospy.Subscriber(topic_in, Image, self.callback)
+
+  def callback(self, data):
+    try:
+      cv_image = self.bridge.imgmsg_to_cv2(data, "8UC1")
+    except CvBridgeError as e:
+      print(e)
+
+    cv2.imshow("Image window", cv_image)
+    cv2.waitKey(3)
+
+    try:
+      self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "8UC1"))
+    except CvBridgeError as e:
+      print(e)
+
 def main(args):
-  ic_rgb = image_converter(topic_rgb, topic_opencv_rgb)
-  ic_ir = image_converter(topic_ir1, topic_opencv_ir1)
-  ic_ir = image_converter(topic_ir2, topic_opencv_ir2)
+  ic_rgb = rgb_image_converter(topic_rgb, topic_opencv_rgb)
+  ic_ir = ir_image_converter(topic_ir1, topic_opencv_ir1)
+  ic_ir = ir_image_converter(topic_ir2, topic_opencv_ir2)
 
   rospy.init_node('image_converter', anonymous=True)
   try:
