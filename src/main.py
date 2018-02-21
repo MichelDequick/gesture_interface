@@ -37,7 +37,7 @@ class rgb_image_converter:
     if cols > 60 and rows > 60:
       cv2.circle(cv_image, (150, 150), 50, 255)
 
-    cv_image = cv2.blur(cv_image, (5, 5))
+    cv_image = cv2.blur(cv_image, (20, 20))
 
     cv2.imshow("Image window", cv_image)
     cv2.waitKey(3)
