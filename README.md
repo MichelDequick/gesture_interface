@@ -64,7 +64,7 @@ ROS, OpenCV, Intel RealSense
 * Create a catkin workspace
   ```shell
   mkdir -p ~/catkin_ws/src && cd ~/catkin_ws/src
-  git clone https://github.com/MichelDequick/Gesture-Interface.git
+  git clone https://github.com/MichelDequick/gesture_interface.git
   cd ~/catkin_ws
   catkin_make 
   source devel/setup.bash
