@@ -6,7 +6,7 @@ import sys
 import rospy
 from std_msgs.msg import String
 
-import image_converter
+from image_converter import *
 
 def main(args):
   ic = image_converter()
