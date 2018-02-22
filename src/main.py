@@ -36,6 +36,8 @@ class image_converter:
     except CvBridgeError as e:
       print(e)
 
+    cv2.circle(cv_image, (200, 200), 0, 255)
+
     cv2.imshow("Image window", cv_image)
     cv2.waitKey(3)
 
@@ -46,7 +48,7 @@ class image_converter:
 
 def main(args):
   ic_rgb = image_converter(topic_rgb, topic_opencv_rgb, "bgr8")
-  #ic_depth = image_converter(topic_depth, topic_opencv_depth, "mono16")
+  ic_depth = image_converter(topic_depth, topic_opencv_depth, "mono16")
 
   rospy.init_node('image_converter', anonymous=True)
   try:
