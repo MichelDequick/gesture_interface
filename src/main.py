@@ -12,10 +12,10 @@ from cv_bridge import CvBridge, CvBridgeError
 
 # Topics
 topic_rgb = "camera/rgb/image_raw"
-topic_ir1 = "camera/ir1/image_raw"
-topic_ir2 = "camera/ir2/image_raw"
+topic_depth = "camera/depth/image"
 
 topic_opencv_rgb = "gesture_interface/opencv/rgb/image_raw"
+topic_opencv_depth = "gesture_interface/opencv/depth/image"
 
 
 
@@ -48,6 +48,7 @@ class rgb_image_converter:
 
 def main(args):
   ic_rgb = rgb_image_converter(topic_rgb, topic_opencv_rgb)
+  ic_depth = rgb_image_converter(topic_depth, topic_opencv_depth)
 
   rospy.init_node('image_converter', anonymous=True)
   try:
