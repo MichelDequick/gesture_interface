@@ -56,7 +56,7 @@ class depth_image_converter:
   def callback(self, data):
     try:
       cv_image = cv.normalize(data,  cv_image, 0, 255, cv.NORM_MINMAX)
-      #cv_image = self.bridge.imgmsg_to_cv2(cv_image, "bgr8")
+      cv_image = self.bridge.imgmsg_to_cv2(cv_image, "32FC1")
     except CvBridgeError as e:
       print(e)
 
@@ -68,7 +68,7 @@ class depth_image_converter:
     cv2.waitKey(3)
 
     try:
-      self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
+      #self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
     except CvBridgeError as e:
       print(e)
 
