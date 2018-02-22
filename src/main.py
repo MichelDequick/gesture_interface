@@ -45,6 +45,32 @@ class rgb_image_converter:
     except CvBridgeError as e:
       print(e)
 
+class depth_image_converter:
+
+  def __init__(self, topic_in, topic_out):
+    self.image_pub = rospy.Publisher(topic_out, Image)
+
+    self.bridge = CvBridge()
+    self.image_sub = rospy.Subscriber(topic_in, Image, self.callback)
+
+  def callback(self, data):
+    try:
+      cv_image = cv.normalize(data,  cv_image, 0, 255, cv.NORM_MINMAX)
+      #cv_image = self.bridge.imgmsg_to_cv2(cv_image, "bgr8")
+    except CvBridgeError as e:
+      print(e)
+
+    (rows, cols, channels) = cv_image.shape
+    if cols > 60 and rows > 60:
+      cv2.circle(cv_image, (150, 150), 50, 255)
+
+    cv2.imshow("Image window", cv_image)
+    cv2.waitKey(3)
+
+    try:
+      self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
+    except CvBridgeError as e:
+      print(e)
 
 def main(args):
   ic_rgb = rgb_image_converter(topic_rgb, topic_opencv_rgb)
