@@ -54,7 +54,7 @@ class wave_recognition:
 
 def main(args):
   ic_rgb = image_converter(topic_rgb, "bgr8")
-  wr = wave_recognition(topic_data)
+  #wr = wave_recognition(topic_data)
   
   rospy.init_node('image_converter', anonymous=True)
   rospy.init_node('wave_recognition', anonymous=True)
