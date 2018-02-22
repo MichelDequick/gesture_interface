@@ -9,7 +9,7 @@ ROS, OpenCV, Intel RealSense
 * Update Ubuntu with folowing commands:
   ```shell
   sudo apt update
-  sudo apt -y dist-upgrade
+  sudo apt upgrade
   ```
 * Install the linux-upboard kernel with folowing commands:
   ```shell
