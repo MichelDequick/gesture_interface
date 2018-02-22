@@ -30,7 +30,8 @@ class image_converter:
 
   def callback(self, data):
     try:
-      data.encoding = "mono16"
+      data.encoding = self.encoding
+      
       cv_image = self.bridge.imgmsg_to_cv2(data, self.encoding)
     except CvBridgeError as e:
       print(e)
