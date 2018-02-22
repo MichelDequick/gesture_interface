@@ -2,7 +2,7 @@
 from __future__ import print_function
 
 import roslib
-roslib.load_manifest('gesture_interface')
+#roslib.load_manifest('gesture_interface')
 import sys
 import rospy
 import cv2
