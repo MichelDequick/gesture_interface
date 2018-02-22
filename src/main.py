@@ -55,7 +55,7 @@ class depth_image_converter:
 
   def callback(self, data):
     try:
-      cv_image = cv.normalize(data,  cv_image, 1, 0, cv.NORM_MINMAX)
+      cv_image = self.bridge.normalize(data,  cv_image, 1, 0, cv.NORM_MINMAX)
       cv_image = self.bridge.imgmsg_to_cv2(cv_image, "32FC1")
     except CvBridgeError as e:
       print(e)
