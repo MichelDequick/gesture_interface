@@ -12,7 +12,7 @@ from cv_bridge import CvBridge, CvBridgeError
 
 # Topics
 topic_rgb = "camera/rgb/image_raw"
-topic_depth = "camera/depth/image_raw"
+topic_depth = "camera/depth/image_raw/theora"
 
 topic_opencv_rgb = "gesture_interface/opencv/rgb/image_raw"
 topic_opencv_depth = "gesture_interface/opencv/depth/image"
