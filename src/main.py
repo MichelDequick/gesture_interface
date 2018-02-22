@@ -12,21 +12,16 @@ from cv_bridge import CvBridge, CvBridgeError
 
 # Topics
 topic_rgb = "camera/rgb/image_raw"
-topic_depth = "camera/depth/image_rect_raw"
-
-topic_opencv_rgb = "gesture_interface/opencv/rgb/image_raw"
-topic_opencv_depth = "gesture_interface/opencv/depth/image"
+topic_data = "person_tracking_output"
 
 
 
 class image_converter:
 
-  def __init__(self, topic_in, topic_out, encoding):
+  def __init__(self, topic,  encoding):
     self.encoding = encoding
-    self.image_pub = rospy.Publisher(topic_out, Image)
-
     self.bridge = CvBridge()
-    self.image_sub = rospy.Subscriber(topic_in, Image, self.callback)
+    self.image_sub = rospy.Subscriber(topic, Image, self.callback)
 
   def callback(self, data):
     try:
@@ -36,21 +31,33 @@ class image_converter:
     except CvBridgeError as e:
       print(e)
 
+    cv2.imshow("Image window", cv_image)
+    cv2.waitKey(3)
+
+class wave_recognition:
+
+  def __init__(self, topic):
+    self.data_sub = rospy.Subscriber(topic, String, self.callback)
+
+  def callback(self, data):
+    try:
+      self.elbow_left = ""
+      self.elbow_right = ""
+    except CvBridgeError as e:
+      print(e)
+
     cv2.circle(cv_image, (200, 200), 0, 255)
 
     cv2.imshow("Image window", cv_image)
     cv2.waitKey(3)
 
-    try:
-      self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, self.encoding))
-    except CvBridgeError as e:
-      print(e)
 
 def main(args):
-  ic_rgb = image_converter(topic_rgb, topic_opencv_rgb, "bgr8")
-  #ic_depth = image_converter(topic_depth, topic_opencv_depth, "mono16")
-
+  ic_rgb = image_converter(topic_rgb, "bgr8")
+  wr = wave_recognition(topic_data)
+  
   rospy.init_node('image_converter', anonymous=True)
+  rospy.init_node('wave_recognition', anonymous=True)
   try:
     rospy.spin()
   except KeyboardInterrupt:
