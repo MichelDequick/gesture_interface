@@ -19,9 +19,9 @@ topic_opencv_depth = "gesture_interface/opencv/depth/image"
 
 
 
-class rgb_image_converter:
+class image_converter:
 
-  def __init__(self, topic_in, topic_out):
+  def __init__(self, topic_in, topic_out, encoding):
     self.image_pub = rospy.Publisher(topic_out, Image)
 
     self.bridge = CvBridge()
@@ -29,7 +29,7 @@ class rgb_image_converter:
 
   def callback(self, data):
     try:
-      cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
+      cv_image = self.bridge.imgmsg_to_cv2(data, encoding)
     except CvBridgeError as e:
       print(e)
 
@@ -41,13 +41,13 @@ class rgb_image_converter:
     cv2.waitKey(3)
 
     try:
-      self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
+      self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, encoding))
     except CvBridgeError as e:
       print(e)
 
 def main(args):
-  ic_rgb = rgb_image_converter(topic_rgb, topic_opencv_rgb)
-  ic_depth = rgb_image_converter(topic_depth, topic_opencv_depth)
+  ic_rgb = image_converter(topic_rgb, topic_opencv_rgb, "bgr8")
+  ic_depth = image_converter(topic_depth, topic_opencv_depth, "16UC1")
 
   rospy.init_node('image_converter', anonymous=True)
   try:
