@@ -22,6 +22,7 @@ topic_opencv_depth = "gesture_interface/opencv/depth/image"
 class image_converter:
 
   def __init__(self, topic_in, topic_out, encoding):
+    self.encoding = encoding
     self.image_pub = rospy.Publisher(topic_out, Image)
 
     self.bridge = CvBridge()
@@ -29,7 +30,7 @@ class image_converter:
 
   def callback(self, data):
     try:
-      cv_image = self.bridge.imgmsg_to_cv2(data, encoding)
+      cv_image = self.bridge.imgmsg_to_cv2(data, self.encoding)
     except CvBridgeError as e:
       print(e)
 
@@ -41,7 +42,7 @@ class image_converter:
     cv2.waitKey(3)
 
     try:
-      self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, encoding))
+      self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, self.encoding))
     except CvBridgeError as e:
       print(e)
 
