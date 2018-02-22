@@ -74,7 +74,7 @@ class depth_image_converter:
 
 def main(args):
   ic_rgb = rgb_image_converter(topic_rgb, topic_opencv_rgb)
-  ic_depth = rgb_image_converter(topic_depth, topic_opencv_depth)
+  ic_depth = depth_image_converter(topic_depth, topic_opencv_depth)
 
   rospy.init_node('image_converter', anonymous=True)
   try:
